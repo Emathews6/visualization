@@ -1,6 +1,6 @@
-Creating L2 networks and ports
+#Creating L2 networks and ports
 
-create_network
+#create_network
 openstack network create vnf-network
 
 create_port
