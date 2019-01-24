@@ -1,0 +1,32 @@
+Creating L2 networks and ports
+
+create_network
+openstack network create vnf-network
+
+create_port
+openstack port create --network vnf-network port0
+openstack port create --network vnf-network port1
+openstack port create --network vnf-network port2
+openstack port create --network vnf-network port3
+
+creation of VNFs (all have the same image for simplicity)
+
+create_server
+openstack server create --image centos --flavor m1.small --port port1 --port port2 vFW
+openstack server create --image centos --flavor m1.small --port port0 VNF1
+openstack server create --image centos --flavor m1.small --port port3 VNF3
+
+creation of port pairs and a group
+
+
+openstack sfc port pair create --ingress port1 --egress port2 vfw-pp
+openstack sfc port pair group create --port-pair vfw-pp-group
+
+creation of flow classifier
+
+openstack sfc flow classifier create --protocol icmp --logical-source-port port0 vfw-flow-icmp
+
+creation of a service port chain
+
+openstack sfc port chain create --port-pair-group vfw-pp-group --flow-classifier vfw-flow-icmp
+
